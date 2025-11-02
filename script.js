@@ -1,4 +1,4 @@
-const apiKey = "prj_XCWJ4WsZOwB9UyVveL756aSFiUvv";
+const apiKey = "ce35ce93c19f45689d2fea0c01902bb1";
 
 $(document).ready(function() {
   // Load navbar & footer di semua halaman
@@ -51,4 +51,5 @@ function loadNews(category = "general") {
     });
   });
 }
+
 
