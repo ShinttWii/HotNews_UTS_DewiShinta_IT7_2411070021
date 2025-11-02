@@ -1,0 +1,127 @@
+/* ====== GLOBAL ====== */
+body {
+  font-family: 'Roboto', sans-serif;
+  padding-top: 70px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+.content-section {
+  margin-top: 2rem;
+}
+
+/* Card berita */
+.card {
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Footer */
+footer {
+  background-color: #212529;
+  color: white;
+  padding: 1.5rem 0;
+  text-align: center;
+  margin-top: auto;
+}
+
+/* Navbar aktif */
+.nav-link.active {
+  color: #ffc107 !important;
+  font-weight: 600;
+}
+
+/* Logo */
+.navbar-brand img {
+  height: 40px;
+  width: auto;
+}
+
+/* ====== HOME ====== */
+.home-bg {
+  background-color: #eaf3ff;
+}
+
+/* ====== BUSINESS ====== */
+.business-bg {
+  background-color: #fff8e1;
+}
+
+.text-business {
+  color: #b58900;
+}
+
+.business-bg .card-text {
+  color: #7a5d00;
+}
+
+.business-bg .btn-primary {
+  background-color: #b58900;
+  border-color: #b58900;
+  color: #fff;
+}
+
+.business-bg .btn-primary:hover {
+  background-color: #8c6d00;
+  border-color: #8c6d00;
+}
+
+/* ====== TECHNOLOGY ====== */
+.tech-bg {
+  background-color: #eaf9ff;
+}
+
+.tech-bg .btn-primary {
+  background-color: #00b4d8;
+  border-color: #00b4d8;
+  color: #fff;
+}
+
+.tech-bg .btn-primary:hover {
+  background-color: #0096c7;
+  border-color: #0096c7;
+}
+
+/* ====== SPORT ====== */
+.sport-bg {
+  background-color: #fff3f3;
+}
+
+.sport-bg .btn-primary {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff;
+}
+
+.sport-bg .btn-primary:hover {
+  background-color: #bb2d3b;
+  border-color: #bb2d3b;
+}
+
+/* ====== ABOUT ====== */
+.about-bg {
+  background-color: #f7f7f7;
+}
+
+.about-bg h2 {
+  color: #6c757d;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  footer {
+    font-size: 0.9rem;
+  }
+}
+
+
