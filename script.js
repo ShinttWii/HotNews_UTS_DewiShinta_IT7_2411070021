@@ -16,26 +16,13 @@ $(document).ready(function() {
 
 // Fungsi ambil berita
 function loadNews(category = "general") {
-  const apiKey = "ce35ce93c19f45689d2fea0c01902bb1";
-  const url = `https://newsapi.org/v2/top-headlines?country=id&category=${category}&apiKey=${apiKey}`;
-
-  // proxy gratis (tanpa limit ketat)
-  const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(url);
-
   const container = $("#news-container");
   container.html("<p class='text-center text-muted'>Loading news...</p>");
 
-  $.get(proxyUrl)
-    .done(function(data) {
-      try {
-        if (typeof data === "string") data = JSON.parse(data);
-      } catch (e) {
-        console.error("Parse error:", e);
-        container.html("<p class='text-center text-danger'>Failed to load news.</p>");
-        return;
-      }
-
+  $.get(`/api/news?category=${category}`)
+    .done(function (data) {
       container.html("");
+
       if (!data.articles || data.articles.length === 0) {
         container.html("<p class='text-center text-muted'>No news available.</p>");
         return;
@@ -57,7 +44,7 @@ function loadNews(category = "general") {
         `);
       });
     })
-    .fail(function() {
+    .fail(function () {
       container.html("<p class='text-center text-danger'>Failed to load news.</p>");
     });
 }
