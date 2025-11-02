@@ -17,15 +17,17 @@ $(document).ready(function() {
 // Fungsi ambil berita
 function loadNews(category = "general") {
   const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
+  const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
   const container = $("#news-container");
 
   // Tambahkan teks loading sebelum ambil data
   container.html("<p class='text-center text-muted'>Loading news...</p>");
 
-  $.get(url, function(data) {
+  // Ambil data lewat proxy (biar gak kena CORS block)
+  $.getJSON(proxyUrl, function(data) {
     container.html(""); // kosongkan lagi setelah data datang
 
-    if (!data.articles.length) {
+    if (!data.articles || !data.articles.length) {
       container.html("<p class='text-center text-muted'>No news available.</p>");
       return;
     }
@@ -35,7 +37,8 @@ function loadNews(category = "general") {
         container.append(`
           <div class="col-md-4 col-sm-6">
             <div class="card h-100 shadow-sm border-0">
-              <img src="${a.urlToImage || 'https://via.placeholder.com/400x200'}" class="card-img-top" style="height:180px;object-fit:cover;">
+              <img src="${a.urlToImage || 'https://via.placeholder.com/400x200'}"
+                   class="card-img-top" style="height:180px;object-fit:cover;">
               <div class="card-body d-flex flex-column">
                 <h6 class="fw-bold text-primary">${a.title || 'No Title'}</h6>
                 <small class="text-muted mb-2">${a.source.name || ''}</small>
@@ -47,5 +50,7 @@ function loadNews(category = "general") {
         `);
       }
     });
+  }).fail(() => {
+    container.html("<p class='text-center text-danger'>Failed to load news.</p>");
   });
 }
