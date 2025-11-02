@@ -19,7 +19,7 @@ function loadNews(category = "general") {
   const container = $("#news-container");
   container.html("<p class='text-center text-muted'>Loading news...</p>");
 
-  $.get(`/api/news?category=${category}`)
+$.get(`/api/news?category=${category}`)
     .done(function (data) {
       container.html("");
 
@@ -48,3 +48,4 @@ function loadNews(category = "general") {
       container.html("<p class='text-center text-danger'>Failed to load news.</p>");
     });
 }
+
