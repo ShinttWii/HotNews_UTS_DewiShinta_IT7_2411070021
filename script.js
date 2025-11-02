@@ -16,42 +16,51 @@ $(document).ready(function() {
 
 // Fungsi ambil berita
 function loadNews(category = "general") {
+  const apiKey = "ce35ce93c19f45689d2fea0c01902bb1"; // API key kamu
   const url = `https://newsapi.org/v2/top-headlines?country=id&category=${category}&apiKey=${apiKey}`;
-  const proxyUrl = "https://thingproxy.freeboard.io/fetch/" + url;
-  const container = $("#news-container");
 
-  // Tambahkan teks loading sebelum ambil data
+  // pakai proxy supaya tidak kena CORS error
+  const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+
+  const container = $("#news-container");
   container.html("<p class='text-center text-muted'>Loading news...</p>");
 
-  // Ambil data lewat proxy (biar gak kena CORS block)
-  $.getJSON(proxyUrl, function(data) {
-    container.html(""); // kosongkan lagi setelah data datang
+  $.get(proxyUrl)
+    .done(function(data) {
+      try {
+        // data dari proxy biasanya masih dalam bentuk string → ubah jadi JSON
+        data = typeof data === "string" ? JSON.parse(data) : data;
+      } catch (err) {
+        console.error("Gagal parse data:", err);
+        container.html("<p class='text-center text-danger'>Failed to load news.</p>");
+        return;
+      }
 
-    if (!data.articles || !data.articles.length) {
-      container.html("<p class='text-center text-muted'>No news available.</p>");
-      return;
-    }
+      container.html("");
 
-    data.articles.forEach((a, i) => {
-      if (i < 9) {
+      if (!data.articles || !data.articles.length) {
+        container.html("<p class='text-center text-muted'>No news available.</p>");
+        return;
+      }
+
+      data.articles.slice(0, 9).forEach(a => {
         container.append(`
           <div class="col-md-4 col-sm-6">
             <div class="card h-100 shadow-sm border-0">
-              <img src="${a.urlToImage || 'https://via.placeholder.com/400x200'}"
-                   class="card-img-top" style="height:180px;object-fit:cover;">
+              <img src="${a.urlToImage || 'https://via.placeholder.com/400x200'}" class="card-img-top" style="height:180px;object-fit:cover;">
               <div class="card-body d-flex flex-column">
                 <h6 class="fw-bold text-primary">${a.title || 'No Title'}</h6>
-                <small class="text-muted mb-2">${a.source.name || ''}</small>
+                <small class="text-muted mb-2">${a.source?.name || ''}</small>
                 <p class="text-truncate">${a.description || 'No description available.'}</p>
                 <a href="${a.url}" target="_blank" class="btn btn-primary btn-sm mt-auto">Read More</a>
               </div>
             </div>
           </div>
         `);
-      }
+      });
+    })
+    .fail(function(err) {
+      console.error("Gagal ambil data:", err);
+      container.html("<p class='text-center text-danger'>Failed to load news.</p>");
     });
-  }).fail(() => {
-    container.html("<p class='text-center text-danger'>Failed to load news.</p>");
-  });
 }
-
