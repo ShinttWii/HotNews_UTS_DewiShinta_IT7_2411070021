@@ -16,11 +16,11 @@ $(document).ready(function() {
 
 // Fungsi ambil berita
 function loadNews(category = "general") {
-  const apiKey = "ce35ce93c19f45689d2fea0c01902bb1"; // API key kamu
+  const apiKey = "ce35ce93c19f45689d2fea0c01902bb1";
   const url = `https://newsapi.org/v2/top-headlines?country=id&category=${category}&apiKey=${apiKey}`;
 
-  // pakai proxy supaya tidak kena CORS error
-  const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+  // proxy gratis (tanpa limit ketat)
+  const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(url);
 
   const container = $("#news-container");
   container.html("<p class='text-center text-muted'>Loading news...</p>");
@@ -28,17 +28,15 @@ function loadNews(category = "general") {
   $.get(proxyUrl)
     .done(function(data) {
       try {
-        // data dari proxy biasanya masih dalam bentuk string → ubah jadi JSON
-        data = typeof data === "string" ? JSON.parse(data) : data;
-      } catch (err) {
-        console.error("Gagal parse data:", err);
+        if (typeof data === "string") data = JSON.parse(data);
+      } catch (e) {
+        console.error("Parse error:", e);
         container.html("<p class='text-center text-danger'>Failed to load news.</p>");
         return;
       }
 
       container.html("");
-
-      if (!data.articles || !data.articles.length) {
+      if (!data.articles || data.articles.length === 0) {
         container.html("<p class='text-center text-muted'>No news available.</p>");
         return;
       }
@@ -59,8 +57,7 @@ function loadNews(category = "general") {
         `);
       });
     })
-    .fail(function(err) {
-      console.error("Gagal ambil data:", err);
+    .fail(function() {
       container.html("<p class='text-center text-danger'>Failed to load news.</p>");
     });
 }
