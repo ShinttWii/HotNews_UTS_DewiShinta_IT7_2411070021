@@ -17,10 +17,17 @@ $(document).ready(function() {
 // Fungsi ambil berita
 function loadNews(category = "general") {
   const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
-  $.get(url, function(data) {
+  
+  // kalau jalan di localhost → langsung fetch
+  // kalau di hosting (bukan localhost) → lewat proxy
+  const finalUrl = location.hostname === "localhost"
+    ? url
+    : "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+
+  $.getJSON(finalUrl, function(data) {
     const container = $("#news-container");
     container.html("");
-    if (!data.articles.length) {
+    if (!data.articles || !data.articles.length) {
       container.html("<p class='text-center text-muted'>No news available.</p>");
       return;
     }
