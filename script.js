@@ -1,4 +1,4 @@
-const apiKey = "23fc7bd716db4e829ffa5f7efa463627";
+const apiKey = "ce35ce93c19f45689d2fea0c01902bb1";
 
 $(document).ready(function() {
   // Load navbar & footer di semua halaman
@@ -15,7 +15,6 @@ $(document).ready(function() {
 });
 
 // Fungsi ambil berita
-function loadNews(category = "general") {
 function loadNews(category = "general") {
   const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
   
