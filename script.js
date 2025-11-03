@@ -1,5 +1,7 @@
+const apiKey = "ce35ce93c19f45689d2fea0c01902bb1";
+
 $(document).ready(function() {
-  // Load navbar & footer di semua halaman
+  // Load navbar & footer
   $("#navbar-container").load("navbar.html", function() {
     const current = location.pathname.split("/").pop();
     $(".nav-link").each(function() {
@@ -11,48 +13,49 @@ $(document).ready(function() {
 
   $("#footer-container").load("footer.html");
 
-  // Load berita default kategori "general" saat halaman pertama kali dibuka
+  // Load berita pertama kali
   loadNews("general");
 
-  // Event klik kategori (misal tombol atau nav kategori)
+  // Klik kategori
   $(".news-category").click(function() {
     const category = $(this).data("category");
     loadNews(category);
   });
 });
 
-// Fungsi ambil berita via serverless function Vercel
 function loadNews(category = "general") {
   const container = $("#news-container");
   container.html("<p class='text-center text-muted'>Loading news...</p>");
 
-  // Panggil serverless function /api/news
-  $.get(`/api/news?category=${category}`)
-    .done(function (data) {
-      container.html("");
+  const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
 
-      if (!data.articles || data.articles.length === 0) {
-        container.html("<p class='text-center text-muted'>No news available.</p>");
-        return;
-      }
+  // ✅ Pakai proxy publik (agar bisa di-host di Vercel)
+  const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
 
-      data.articles.slice(0, 9).forEach(a => {
-        container.append(`
-          <div class="col-md-4 col-sm-6">
-            <div class="card h-100 shadow-sm border-0">
-              <img src="${a.urlToImage || 'https://via.placeholder.com/400x200'}" class="card-img-top" style="height:180px;object-fit:cover;">
-              <div class="card-body d-flex flex-column">
-                <h6 class="fw-bold text-primary">${a.title || 'No Title'}</h6>
-                <small class="text-muted mb-2">${a.source?.name || ''}</small>
-                <p class="text-truncate">${a.description || 'No description available.'}</p>
-                <a href="${a.url}" target="_blank" class="btn btn-primary btn-sm mt-auto">Read More</a>
-              </div>
+  $.getJSON(proxyUrl, function(data) {
+    container.html("");
+
+    if (!data.articles || !data.articles.length) {
+      container.html("<p class='text-center text-muted'>No news available.</p>");
+      return;
+    }
+
+    data.articles.slice(0, 9).forEach(a => {
+      container.append(`
+        <div class="col-md-4 col-sm-6">
+          <div class="card h-100 shadow-sm border-0">
+            <img src="${a.urlToImage || 'https://via.placeholder.com/400x200'}" class="card-img-top" style="height:180px;object-fit:cover;">
+            <div class="card-body d-flex flex-column">
+              <h6 class="fw-bold text-primary">${a.title || 'No Title'}</h6>
+              <small class="text-muted mb-2">${a.source?.name || ''}</small>
+              <p class="text-truncate">${a.description || 'No description available.'}</p>
+              <a href="${a.url}" target="_blank" class="btn btn-primary btn-sm mt-auto">Read More</a>
             </div>
           </div>
-        `);
-      });
-    })
-    .fail(function () {
-      container.html("<p class='text-center text-danger'>Failed to load news.</p>");
+        </div>
+      `);
     });
+  }).fail(() => {
+    container.html("<p class='text-center text-danger'>Failed to load news.</p>");
+  });
 }
