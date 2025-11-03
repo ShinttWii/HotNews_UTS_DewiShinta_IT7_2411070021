@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=id&category=${category}&apiKey=${apiKey}`
+      `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`
     );
 
     if (!response.ok) {
