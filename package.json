@@ -1,8 +1,5 @@
 {
   "name": "hot-news-uts",
   "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "node-fetch": "^3.4.0"
-  }
+  "type": "module"
 }
