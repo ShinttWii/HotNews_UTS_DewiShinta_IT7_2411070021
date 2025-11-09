@@ -16,10 +16,10 @@
   <main class="container content-section">
     <h2 class="text-center mb-4 text-primary fw-bold">Top Headlines</h2>
     
-   <form id="search-form" class="d-flex justify-content-center mb-4">
-  <input id="search-input" type="text" class="form-control w-50" placeholder="Cari berita...">
-  <button class="btn btn-primary ms-2" type="submit">Cari</button>
+  <form id="searchForm" class="d-flex" role="search">
+  <input id="searchInput" class="form-control me-2" type="search" placeholder="Cari berita ..." aria-label="Search">
 </form>
+
 
     <div id="news-container" class="row g-4"></div>
   </main>
@@ -32,5 +32,6 @@
   <script>loadNews('general');</script>
 </body>
 </html>
+
 
 
