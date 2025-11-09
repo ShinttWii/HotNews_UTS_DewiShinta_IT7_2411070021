@@ -17,10 +17,14 @@
     <h2 class="text-center mb-4 fw-bold text-business">Business</h2>
 
     <!-- 🔍 Form Pencarian -->
-   <form id="searchForm" class="d-flex" role="search">
-  <input id="searchInput" class="form-control me-2" type="search" placeholder="Cari berita bisnis ..." aria-label="Search">
-</form>
-
+  <div class="row mb-4">
+      <div class="col-md-6 mx-auto">
+        <form id="search-form" class="d-flex" role="search">
+          <input id="search-input" class="form-control me-2" type="search" placeholder="Cari berita bisnis..." aria-label="Search">
+          <button class="btn btn-info" type="submit">Cari</button>
+        </form>
+      </div>
+    </div>
 
     <!-- 📰 Kontainer Berita -->
     <div id="news-container" class="row g-4"></div>
@@ -39,4 +43,5 @@
   </script>
 </body>
 </html>
+
 
