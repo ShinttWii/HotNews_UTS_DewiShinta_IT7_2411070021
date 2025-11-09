@@ -15,15 +15,27 @@
   <!-- Main Content -->
   <main class="container content-section">
     <h2 class="text-center mb-4 fw-bold text-business">Business</h2>
+
+    <!-- 🔍 Form Pencarian -->
+    <form id="search-form" class="d-flex justify-content-center mb-4">
+      <input id="search-input" type="text" class="form-control w-50" placeholder="Cari berita bisnis...">
+      <button class="btn btn-primary ms-2" type="submit">Cari</button>
+    </form>
+
+    <!-- 📰 Kontainer Berita -->
     <div id="news-container" class="row g-4"></div>
   </main>
 
   <!-- Footer -->
   <div id="footer-container"></div>
 
+  <!-- Script -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="script.js"></script>
-  <script>loadNews('business');</script>
+  <script>
+    // Tampilkan berita kategori business saat pertama kali dibuka
+    loadNews('business');
+  </script>
 </body>
 </html>
